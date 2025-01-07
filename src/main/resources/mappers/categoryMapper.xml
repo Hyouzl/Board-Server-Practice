@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traffic.practice.mapper.CategoryMapper">
+    <insert id="register" parameterType="com.traffic.practice.dto.CategoryDTO">
+        INSERT INTO category (name)
+        VALUES (#{name})
+    </insert>
+    <update id="updateCategory" parameterType="com.traffic.practice.dto.CategoryDTO">
+        UPDATE category
+        SET name=#{name}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteCategory" parameterType="java.lang.Long">
+        DELETE FROM category
+        WHERE id = #{id}
+    </delete>
+</mapper>
