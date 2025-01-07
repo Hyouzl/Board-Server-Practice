@@ -1,5 +1,6 @@
 package com.traffic.practice.controller;
 
+import com.traffic.practice.aop.LoginCheck;
 import com.traffic.practice.dto.UserDTO;
 import com.traffic.practice.dto.request.UserDeleteId;
 import com.traffic.practice.dto.request.UserLoginRequest;
@@ -89,11 +90,12 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public  ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public  ResponseEntity<LoginResponse> updateUserPassword(String accountId, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
                                                              HttpSession session) {
         ResponseEntity<LoginResponse> responseEntity = null;
 
-        String id = SessionUtil.getLoginMemberId(session);
+        String id = accountId;
         LoginResponse loginResponse = null;
         String beforePassword = userUpdatePasswordRequest.getBeforePassword();
         String afterPassword = userUpdatePasswordRequest.getAfterPassword();

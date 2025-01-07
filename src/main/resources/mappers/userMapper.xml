@@ -36,7 +36,7 @@
         VALUES (#{userId}, #{password}, #{nickname}, #{createdTime}, #{isWithDraw}, #{status})
     </insert>
 
-    <select id="findByUserIdAndPassword" resultType="com.traffic.practice.dto.UserDTO">
+    <select id="findByIdAndPassword" resultType="com.traffic.practice.dto.UserDTO">
         SELECT id,
                user_id,
                password,
@@ -45,7 +45,7 @@
                is_with_draw,
                status
         FROM user
-        WHERE id = #{id}
+        WHERE user_id = #{userId}
           AND password = #{password}
           AND status != 'DELETE'
     </select>
