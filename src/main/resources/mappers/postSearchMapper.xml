@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traffic.practice.mapper.PostSearchMapper">
+    <select id="selectPosts" resultType="com.traffic.practice.dto.request.PostSearchRequest">
+        SELECT id,
+            name,
+            contents,
+            category_id,
+            views,
+            userId,
+            fileId,
+            updateTime
+        FROM post
+        WHERE 1=1
+        <if test="name != null and name !=''">
+            AND name LIKE CONCAT(#{name}, '%')
+        </if>
+        <if test="contents != null and name !=''">
+            AND contents LIKE CONCAT(#{contents}, '%')
+        </if>
+        <if test="categoryId != null and categoryId !=''">
+            AND category_id LIKE CONCAT(#{categoryId}, '%')
+        </if>
+        <if test="sortStatus.toString() == 'NEWEST'">
+            ORDER BY createdTime DESC
+        </if>
+        <if test="sortStatus.toString() == 'OLDEST'">
+            ORDER BY createdTime ASC
+        </if>
+        <if test="sortStatus.toString() == 'CATEGORIES'">
+            ORDER BY category_id
+        </if>
+
+    </select>
+</mapper>
