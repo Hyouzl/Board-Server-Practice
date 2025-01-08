@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traffic.practice.mapper.PostMapper">
+
+    <insert id="register" parameterType="com.traffic.practice.dto.PostDTO">
+        INSERT INTO post (name, contents, category_id, createdTime, views, userId, fileId, updateTime)
+        VALUES (#{name}, #{contents}, #{category_id}, #{createdTime}, #{views}, #{userId}, #{fileId}, #{updateTime})
+    </insert>
+
+    <select id="selectMyPosts" parameterType="java.lang.Long" resultType="com.traffic.practice.dto.PostDTO">
+        SELECT 'id',
+            'name',
+            'contents',
+            'category_id',
+            'views',
+            'userId',
+            'fileId',
+            'updateTime'
+        FROM post
+        WHERE id = #{userId}
+    </select>
+
+    <update id="updatePost" parameterType="com.traffic.practice.dto.PostDTO">
+        UPDATE post
+        SET name=#{name}, contents=#{contents}, category_id=#{category_id}, views=#{views}, fileId=#{fileId}, updateTime=#{updateTime}, userId=#{userId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePost" parameterType="java.lang.Long">
+        DELETE FROM post
+        WHERE id = #{id}
+    </delete>
+</mapper>

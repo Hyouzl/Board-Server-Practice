@@ -8,7 +8,7 @@
     <select id="getUserProfile" resultType="com.traffic.practice.dto.UserDTO">
         SELECT id, user_id, password, nickname, created_time, is_with_draw, status
         FROM user
-        WHERE id = #{id}
+        WHERE user_id = #{id}
     </select>
 
     <insert id="insertUserProfile" parameterType="com.traffic.practice.dto.UserDTO">

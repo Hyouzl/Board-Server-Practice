@@ -43,10 +43,10 @@ public class UserController {
                             HttpSession httpSession) {
 
         ResponseEntity<LoginResponse> responseEntity = null;
-        String id = userLoginRequest.getUserId();
+        String userId = userLoginRequest.getUserId();
         String password = userLoginRequest.getPassword();
         LoginResponse loginResponse;
-        UserDTO userInfo = userService.login(id, password);
+        UserDTO userInfo = userService.login(userId, password);
 
         if(userInfo == null) {
             return HttpStatus.NOT_FOUND;
@@ -70,14 +70,14 @@ public class UserController {
     public UserInfoResponse getMemberInfo(HttpSession httpSession) {
         String loginMemberId = SessionUtil.getLoginMemberId(httpSession);
         String loginAdminId = SessionUtil.getLoginAdminId(httpSession);
-        String id;
+        String userId;
         if (loginMemberId == null && loginAdminId == null) {
             throw new RuntimeException("로그인이 필요합니다.");
         } else {
-            id = (loginMemberId != null) ? loginMemberId : loginAdminId;
+            userId = (loginMemberId != null) ? loginMemberId : loginAdminId;
         }
 
-        UserDTO userDTO = userService.getUserProfile(id);
+        UserDTO userDTO = userService.getUserProfile(userId);
 
         return new UserInfoResponse(userDTO);
     }
