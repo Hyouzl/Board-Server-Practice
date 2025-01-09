@@ -6,8 +6,11 @@
 <mapper namespace="com.traffic.practice.mapper.PostMapper">
 
     <insert id="register" parameterType="com.traffic.practice.dto.PostDTO">
-        INSERT INTO post (name, contents, category_id, createdTime, views, userId, fileId, updateTime)
-        VALUES (#{name}, #{contents}, #{category_id}, #{createdTime}, #{views}, #{userId}, #{fileId}, #{updateTime})
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO post (name, contents, category_id, created_time, views, user_id, file_id, update_time)
+        VALUES (#{name}, #{contents}, #{categoryId}, #{createdTime}, #{views}, #{userId}, #{fileId}, #{updateTime})
     </insert>
 
     <select id="selectMyPosts" parameterType="java.lang.Long" resultType="com.traffic.practice.dto.PostDTO">
@@ -25,7 +28,7 @@
 
     <update id="updatePost" parameterType="com.traffic.practice.dto.PostDTO">
         UPDATE post
-        SET name=#{name}, contents=#{contents}, category_id=#{category_id}, views=#{views}, fileId=#{fileId}, updateTime=#{updateTime}, userId=#{userId}
+        SET name=#{name}, contents=#{contents}, category_id=#{categoryId}, views=#{views}, fileId=#{fileId}, update_time=#{updateTime}, userId=#{userId}
         WHERE id = #{id}
     </update>
 

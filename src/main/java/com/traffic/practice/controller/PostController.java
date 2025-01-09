@@ -1,7 +1,9 @@
 package com.traffic.practice.controller;
 
 import com.traffic.practice.aop.LoginCheck;
+import com.traffic.practice.dto.CommentDTO;
 import com.traffic.practice.dto.PostDTO;
+import com.traffic.practice.dto.TagDTO;
 import com.traffic.practice.dto.UserDTO;
 import com.traffic.practice.dto.response.CommonResponse;
 import com.traffic.practice.service.PostService;
@@ -84,6 +86,74 @@ public class PostController {
 
         return ResponseEntity.ok(commonResponse);
     }
+
+
+    // --- comments --
+
+    @PostMapping("/comments")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> registerComment(String accountId,
+                                                          @RequestBody CommentDTO commentDTO) {
+        UserDTO memberInfo = userService.getUserProfile(accountId);
+        postService.registerComment(memberInfo.getId(), commentDTO);
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "200", "댓글 등록 성공", commentDTO);
+
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @PatchMapping("/comments/{commentId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> updateComment(String accountId,
+                                                                    @PathVariable Long commentId,
+                                                                    @RequestBody CommentDTO commentDTO) {
+        UserDTO memberInfo = userService.getUserProfile(accountId);
+        commentDTO.setId(commentId);
+        if (memberInfo != null) {
+            postService.updateComment(commentDTO);
+        }
+
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "200", "댓글 수정 성공", commentDTO);
+
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> deleteComment(String accountId,
+                                                                    @PathVariable Long commentId) {
+        UserDTO memberInfo = userService.getUserProfile(accountId);
+        if (memberInfo != null) {
+            postService.deletePostComment(memberInfo.getId(), commentId);
+        }
+
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "200", "댓글 삭제 성공", null);
+
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    // --- tags ---
+
+    @PostMapping("/tags")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse> registerTag(String accountId,
+                                                      @RequestBody TagDTO tagDTO) {
+        UserDTO memberInfo = userService.getUserProfile(accountId);
+        if (memberInfo != null) {
+            postService.registerTag(tagDTO);
+        }
+
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "200", "태그 등록 성공", tagDTO);
+
+        return ResponseEntity.ok(commonResponse);
+    }
+
+
+
+
+
+
+
+    // ------ response 객체 -----
 
     @Getter
     @NoArgsConstructor

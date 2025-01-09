@@ -10,8 +10,8 @@
             contents,
             category_id,
             views,
-            userId,
-            fileId,
+            use_id,
+            file_id,
             updateTime
         FROM post
         WHERE 1=1
@@ -34,5 +34,20 @@
             ORDER BY category_id
         </if>
 
+    </select>
+
+    <select id="getPostsByTag" resultType="com.traffic.practice.dto.request.PostSearchRequest">
+        SELECT p.id,
+            p.name,
+            p.contents,
+            p.category_id,
+            p.views,
+            p.use_id,
+            p.file_id,
+            p.updateTime
+        FROM post p
+        JOIN post_tag pt ON p.id = pt.post_id
+        JOIN tag t ON pt.tag_id = t.id
+        WHERE t.name = #{tagName}
     </select>
 </mapper>

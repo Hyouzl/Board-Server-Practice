@@ -3,6 +3,7 @@ package com.traffic.practice.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +22,6 @@ public class PostDTO {
     private Long fileId;
     private Date createdTime;
     private Date updateTime;
+    private List<TagDTO> tagDTOList;
+
 }
